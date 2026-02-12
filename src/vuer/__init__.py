@@ -1,6 +1,12 @@
 from vuer._compat import handle_server_import_error
 
 try:
+  from importlib.metadata import version
+  __version__ = version("vuer")
+except Exception:
+  __version__ = "0.0.0+unknown"
+
+try:
   from vuer.server import Vuer, VuerSession
   from vuer.workspace import Blob, Workspace
 except ImportError as e:
@@ -22,5 +28,6 @@ __all__ = [
   "VuerClient",
   "Workspace",
   "Blob",
+  "__version__",
   # "entrypoint",
 ]

@@ -3796,6 +3796,8 @@ class SceneCameraControl(SceneElement):
   :type dollySpeed: float, optional
   :param truckSpeed: Speed of truck motion
   :type truckSpeed: float, optional
+  :param stream: If True, send CAMERA_MOVE events to the server when the user moves the camera. Default: False
+  :type stream: bool, optional
   """
 
   tag = "SceneCameraControl"
@@ -4017,6 +4019,7 @@ class DefaultScene(Scene):
   ):
     # Default bgChildren: Grid + HemisphereLightStage + Gamepad + Hands + MotionControllers
     # + SceneCamera + SceneCameraControl + CameraPreviewThumbs + CameraPreviewOverlay
+    # SceneCameraControl(stream=True) so CAMERA_MOVE events are sent to the server (backward compat with pre-0.0.80).
     default_bg_children = [
       Grid(key="grid") if grid else None,
       HemisphereLightStage(key="light-stage"),
@@ -4024,7 +4027,7 @@ class DefaultScene(Scene):
       Hands(fps=30, stream=True, key="hands"),
       MotionControllers(fps=30, stream=True, key="motion-controllers"),
       SceneCamera(key="SceneCamera", position=[0, 5, 10]),
-      SceneCameraControl(key="SceneCameraControl", makeDefault=True),
+      SceneCameraControl(key="SceneCameraControl", makeDefault=True, stream=True),
       CameraPreviewThumbs(key="CameraPreviewThumbs"),
       CameraPreviewOverlay(key="CameraPreviewOverlay"),
       *(bgChildren or []),
