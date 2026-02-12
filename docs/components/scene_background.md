@@ -18,7 +18,7 @@ from tqdm import tqdm
 
 from vuer import Vuer
 from vuer.events import ClientEvent
-from vuer.schemas import Scene, SceneBackground
+from vuer.schemas import Scene, SceneBackground, OrbitControls
 
 assets_folder = Path(__file__).parent / "../../../assets"
 disney_file = "movies/disney.webm"
@@ -36,7 +36,11 @@ async def on_camera(event: ClientEvent, session):
 
 @app.spawn(start=True)
 async def show_heatmap(session):
-    session.set @ Scene()  # Empty scene with no defaults
+    session.set @ Scene(
+        bgChildren=[
+            OrbitControls(stream=True, key="OrbitControls"),
+        ],
+    )
 
     for i, frame in tqdm(enumerate(reader), desc="playing video"):
         # use the upsert(..., to="bgChildren") syntax, so it is in global frame.

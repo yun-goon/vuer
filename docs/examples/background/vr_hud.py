@@ -38,7 +38,7 @@ with doc, doc.skip if MAKE_DOCS else nullcontext():
     async def show_heatmap(sess: VuerSession):
         sess.set @ Scene(
             bgChildren=[
-                OrbitControls(key="OrbitControls")
+                OrbitControls(stream=True, key="OrbitControls")
             ],
         )
 

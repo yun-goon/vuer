@@ -565,6 +565,41 @@ class VuerSession(SceneOps):
 
     return result
 
+  def on(self, event_type: str, fn: EventHandler = None, once: bool = False):
+    """Register an event handler at the session level.
+
+    This is a convenience method that delegates to the Vuer app's
+    ``add_handler``. Use as a decorator or as a function call.
+
+    As a decorator::
+
+        @app.spawn(start=True)
+        async def main(session: VuerSession):
+            session.set @ Scene(
+                Box(args=[0.2, 0.2, 0.2], key="box"),
+                bgChildren=[OrbitControls(stream=True, key="controls")],
+            )
+
+            @session.on("CAMERA_MOVE")
+            async def handle_camera_move(event, sess):
+                print("camera event", event.etype, event.value)
+
+            await session.forever()
+
+    As a function call::
+
+        async def handle_camera_move(event, sess):
+            print("camera event", event.etype, event.value)
+
+        session.on("CAMERA_MOVE", handle_camera_move)
+
+    :param event_type: The event type to handle (e.g., "CAMERA_MOVE").
+    :param fn: The handler function. If None, returns a decorator.
+    :param once: Whether to remove the handler after the first call.
+    :return: Cleanup function (when fn is provided) or decorator (when fn is None).
+    """
+    return self.vuer.add_handler(event_type, fn, once=once)
+
   async def forever(self):
     """Keep the session alive indefinitely.
 

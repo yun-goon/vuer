@@ -31,7 +31,7 @@ async def on_camera(event: ClientEvent, sess: VuerSession):
 async def show_heatmap(sess: VuerSession):
     sess.set @ Scene(
         bgChildren=[
-            OrbitControls(key="OrbitControls")
+            OrbitControls(stream=True, key="OrbitControls")
         ],
     )
 

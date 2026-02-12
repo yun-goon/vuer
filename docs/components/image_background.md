@@ -35,7 +35,7 @@ from tqdm import tqdm
 
 from vuer import Vuer
 from vuer.events import ClientEvent
-from vuer.schemas import Scene, ImageBackground
+from vuer.schemas import Scene, ImageBackground, OrbitControls
 
 assets_folder = Path(__file__).parent / "../../../assets"
 mary_file = "movies/mary.webm"
@@ -54,7 +54,11 @@ async def on_camera(event: ClientEvent, session):
 
 @app.spawn(start=True)
 async def show_heatmap(session):
-    session.set @ Scene()
+    session.set @ Scene(
+        bgChildren=[
+            OrbitControls(stream=True, key="OrbitControls"),
+        ],
+    )
 
     while True:
         for i, frame in tqdm(enumerate(reader), desc="playing video"):

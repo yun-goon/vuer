@@ -108,7 +108,7 @@ with doc, doc.skip if MAKE_DOCS else nullcontext():
     key = "scene-tracking"  # Optional unique identifier (default: "body_tracking")
     stream = True
 
-  @app.add_handler("ON_CAMERA_MOVE")
+  @app.add_handler("CAMERA_MOVE")
   async def on_camera_move(event, sess):
     print(
       f"[CAMERA_MOVE] received, value keys: {event.value.keys() if event.value else None}"
